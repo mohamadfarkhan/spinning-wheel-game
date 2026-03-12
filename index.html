@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Roda Keberuntungan Infonet</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: #f4f6f9;
+        text-align: center;
+      }
+
+      #wheelCanvas {
+      }
+
+      .pointer {
+        width: 0;
+        height: 0;
+        border-left: 22px solid transparent;
+        border-right: 22px solid transparent;
+        border-top: 50px solid rgb(248, 203, 1);
+
+        margin-left: 47%;
+
+        filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));
+      }
+
+      .pointer::after {
+        content: "";
+        position: absolute;
+        margin-left: -22px;
+        border-left: 22px solid transparent;
+        border-right: 22px solid transparent;
+        transform: translateY(-10px);
+      }
+
+      .spin-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+
+        font-weight: bold;
+        font-size: 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      #controlPanel {
+        transition: opacity 0.3s ease;
+      }
+
+      .hide-panel {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+      }
+
+      .show-panel {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease;
+      }
+
+      #wheelWrapper {
+        width: 500px;
+        height: 500px;
+        margin: auto;
+        position: relative;
+      }
+
+      .fullscreen-wheel {
+        transform: scale(1.3);
+      }
+
+      .ticker-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+
+        background: #000;
+        color: #fff;
+        background: linear-gradient(90deg, #000, #222, #000);
+        box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.4);
+
+        padding: 10px 0;
+        z-index: 999;
+      }
+
+      .ticker-text {
+        display: inline-block;
+        white-space: nowrap;
+        padding-left: 100%;
+
+        animation: tickerMove 30s linear infinite;
+
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      @keyframes tickerMove {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-4">
+      <h2 class="mt-5">🎡 DOORPRIZE 🎡</h2>
+
+      <div id="controlPanel" class="row mb-3 mt-5">
+        <div class="col-md-3">
+          <input type="file" id="excelFile" class="form-control" />
+        </div>
+
+        <div class="col-md-6">
+          <button class="btn btn-dark" onclick="toggleFullscreen()">
+            Fullscreen
+          </button>
+        </div>
+
+        <div class="col-md-3">
+          <button class="btn btn-success" onclick="exportWinner()">
+            Export Pemenang
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <!-- Roda -->
+        <div class="col-md-6 text-center" id="wheelWrapper">
+          <div class="pointer"></div>
+          <div style="position: relative; display: inline-block">
+            <canvas id="wheelCanvas" width="500" height="500"></canvas>
+
+            <button class="btn btn-danger spin-btn" onclick="spinWheel()">
+              PUTAR
+            </button>
+          </div>
+        </div>
+        <!-- Daftar Pemenang -->
+        <div class="col-md-3">
+          <h4>🏆 Daftar Pemenang</h4>
+          <ul id="winnerList" class="list-group"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticker-footer">
+      <div class="ticker-text">
+        🎉 ACARA BUKA BERSAMA SELURUH DIREKSI DAN KARYAWAN PT. INFONET MITRA
+        SEJATI 2026 • MARHABAN YA RAMADHAN • MOHON MAAF LAHIR DAN BATIN 🎉
+      </div>
+    </div>
+
+    <audio id="tickSound" src="click.mp3" preload="auto"></audio>
+    <audio id="winSound" src="win.mp3" preload="auto"></audio>
+    <audio id="spinSound" src="drum-winner.mp3" preload="auto"></audio>
+
+    <!-- Modal -->
+    <div class="modal fade" id="winnerModal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">🎉 Pemenang 🎉</h5>
+          </div>
+
+          <div class="modal-body text-center">
+            <h2 id="winnerName"></h2>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-primary" onclick="closeWinnerModal()">
+              Tutup
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
