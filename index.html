@@ -127,7 +127,7 @@
 
   <body>
     <div class="container mt-4">
-      <h2 class="mt-5">🎡 DOORPRIZE 🎡</h2>
+      <h2 class="mt-5">🎡 PENGUNDIAN HADIAH DOORPRIZE 🎡</h2>
 
       <div id="controlPanel" class="row mb-3 mt-5">
         <div class="col-md-3">
@@ -182,17 +182,18 @@
     <div class="modal fade" id="winnerModal">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">🎉 Pemenang 🎉</h5>
+          <div class="modal-header text-center">
+            <h5 class="modal-title">🎉 Selamat Kepada Pemenang Dengan Nomor 🎉</h5>
           </div>
 
           <div class="modal-body text-center">
             <h2 id="winnerName"></h2>
+            <h4 id="winnerPrize" class="text-success mt-3"></h4>
           </div>
 
           <div class="modal-footer">
-            <button class="btn btn-primary" onclick="closeWinnerModal()">
-              Tutup
+            <button class="btn btn-success" onclick="closeWinnerModal()">
+              Lanjut
             </button>
           </div>
         </div>

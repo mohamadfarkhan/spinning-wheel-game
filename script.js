@@ -3,6 +3,11 @@ const ctx = canvas.getContext("2d");
 
 let data = [];
 let winners = [];
+const prizes = [
+  "Advan Smartwatch S2 Pro Gold",
+  "Deerma DX700",
+  "Oppo Enco Air 2 Pro White",
+];
 let angle = 0;
 let spinning = false;
 let currentRotation = 0;
@@ -143,7 +148,18 @@ function showWinner() {
   currentWinnerIndex = index;
   currentWinnerName = winner;
 
+  let prizeIndex = winners.length;
+
+  let prizeText = "";
+
+  if (prizeIndex < prizes.length) {
+    prizeText = "Hadiah: " + prizes[prizeIndex];
+  } else {
+    prizeText = "TERIMAKASIH ATAS PARTISIPASINYA :)";
+  }
+
   document.getElementById("winnerName").innerText = winner;
+  document.getElementById("winnerPrize").innerText = prizeText;
 
   let modal = new bootstrap.Modal(document.getElementById("winnerModal"));
   modal.show();
@@ -166,9 +182,17 @@ function addWinnerToList(name) {
 
   let item = document.createElement("li");
 
+  let prizeIndex = winners.length - 1;
+
+  let prizeText = "";
+
+  if (prizeIndex < prizes.length) {
+    prizeText = " - " + prizes[prizeIndex];
+  }
+
   item.className = "list-group-item";
 
-  item.innerText = name;
+  item.innerText = name + prizeText;
 
   list.appendChild(item);
 }
